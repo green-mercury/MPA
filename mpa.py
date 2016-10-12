@@ -1,5 +1,5 @@
 from PyQt4 import QtGui
-from PyQt4.QtCore import Qt, pyqtSignal, QObject
+from PyQt4.QtCore import Qt, pyqtSignal, QObject, QFileInfo
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -142,9 +142,15 @@ class MainWindow(QtGui.QMainWindow):
                     X.append(float(toks[0]))
                     Y.append(float(toks[1]))
                 continue
-        if not read_data:
-            QtGui.QErrorMessage.showMessage('The file could not be read!')
         f.close()
+        if not read_data:
+            # reset window
+            self.scanpars.setRowCount(0)
+            self.meas.clear()
+            self.ax.clear()
+            self.setWindowTitle('Mercury Profile Analyser')
+            QtGui.QMessageBox.critical(self, 'Error', 'The file could not be loaded')
+        self.setWindowTitle('Mercury Profile Analyser [%s]'%QFileInfo(filename).baseName())
         self.X = np.asarray(X)
         self.Y = np.asarray(Y)
         self.orgY = np.copy(Y)
@@ -159,8 +165,9 @@ class MainWindow(QtGui.QMainWindow):
         dlg = QtGui.QFileDialog()
         dlg.setFileMode(QtGui.QFileDialog.AnyFile)
         dlg.setFilter("Text files (*.txt)")
-        filename = dlg.getOpenFileName(filter="CSV files (*.csv)")
-        if filename != "":
+        filename = dlg.getOpenFileName(filter="CSV files (*.csv)", directory=self.last_path)
+        if filename != '':
+            self.last_path = QFileInfo(filename).path()
             self.loadfile(filename)
 
     def activate_cursor1(self):
@@ -181,6 +188,9 @@ class MainWindow(QtGui.QMainWindow):
 
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
+
+        self.setWindowTitle('Mercury Profile Analyser')
+        self.last_path = ''
 
         self.cids = []
 
