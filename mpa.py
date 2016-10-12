@@ -4,6 +4,7 @@ from PyQt4.QtCore import Qt, pyqtSignal, QObject, QFileInfo
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 
@@ -207,15 +208,16 @@ class MainWindow(QtGui.QMainWindow):
         openAction.setShortcut('Ctrl+O')
         openAction.triggered.connect(self.open_handler)
 
-        cursor1Action = QtGui.QAction(QtGui.QIcon('cursor1.png'), 'Cursor 1', self)
+        path = os.path.dirname(os.path.realpath(__file__))
+        cursor1Action = QtGui.QAction(QtGui.QIcon(path+'/cursor1.png'), 'Cursor 1', self)
         cursor1Action.setShortcut('Ctrl+1')
         cursor1Action.triggered.connect(self.activate_cursor1)
 
-        cursor2Action = QtGui.QAction(QtGui.QIcon('cursor2.png'), 'Cursor 2', self)
+        cursor2Action = QtGui.QAction(QtGui.QIcon(path+'/cursor2.png'), 'Cursor 2', self)
         cursor2Action.setShortcut('Ctrl+2')
         cursor2Action.triggered.connect(self.activate_cursor2)
 
-        levelAction = QtGui.QAction(QtGui.QIcon('level.png'), 'Cursor 2', self)
+        levelAction = QtGui.QAction(QtGui.QIcon(path+'/level.png'), 'Cursor 2', self)
         levelAction.setShortcut('Ctrl+L')
         levelAction.triggered.connect(self.level)
 
