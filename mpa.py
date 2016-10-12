@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from PyQt4 import QtGui
 from PyQt4.QtCore import Qt, pyqtSignal, QObject, QFileInfo
 import sys
