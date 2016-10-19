@@ -159,6 +159,7 @@ class MainWindow(QtGui.QMainWindow):
 
         self.ax.clear()
         self.line, = self.ax.plot(X, Y)
+	self.ax.grid(True)
         self.ax.set_xlabel('distance x [$\mu$m]')
         self.ax.set_ylabel('height y [nm]')
         self.canvas.draw()
